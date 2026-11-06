@@ -1,1 +1,3 @@
-invalid type: string "Admin roles in Fabric.\nMicrosoft Entra built-in roles\nMicrosoft 365 admin roles\nAs an admin, you can manage many platform aspects for your organization. This section\ndiscusses the ability to manage some of Fabric's components, and the impact this has on your\norganization.\nTo access the Fabric SaaS platform, you need a license. Fabric has two type of licenses:\ne tenant 
+invalid type: string "Administration overview\n08/04/2024\nMicrosoft Fabric is a software as a service (SaaS) platform that lets users get, create, share, and\nvisualize data. Fabric unified administration enables you to secure and govern data across the\nplatform, and manage Fabric features. Controlling feature access and capabilities allow you to\nge workspaces
+ｃ HOW-TO GUIDE
+Workspace tenant 

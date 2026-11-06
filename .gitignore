@@ -10,3 +10,10 @@ wheels/
 .venv
 # Variables environments
 .env
+
+# ChromaDB
+chroma_db/
+
+# OS files
+.DS_Store
+Thumbs.db
