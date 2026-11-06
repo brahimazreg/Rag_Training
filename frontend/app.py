@@ -1,115 +1,42 @@
-
-import sys
-from pathlib import Path
-
-ROOT_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(str(ROOT_DIR))
-
 import streamlit as st
-from rag_chain import ask_question_with_sources
+import requests
 
+API_URL = "http://127.0.0.1:8000/ask"
 
-# Page configuration
-st.set_page_config(
-    page_title="PDF RAG Assistant",
-    page_icon="📚"
-)
+st.title("RAG Application")
 
-st.title("📚 PDF RAG Assistant")
-st.caption("Ask questions about your PDF documents.")
+question = st.text_input("Ask a question")
 
+if st.button("Submit"):
 
-# Initialize conversation history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+    if question.strip():
 
+        try:
+            response = requests.post(
+                API_URL,
+                json={"question": question},
+                timeout=120
+            )
 
-# Display previous messages
-for message in st.session_state.messages:
+            response.raise_for_status()
 
-    with st.chat_message(message["role"]):
+            result = response.json()
 
-        st.markdown(message["content"])
+            st.subheader("Answer")
+            st.markdown(result["answer"])
 
-        # Display sources for assistant messages
-        if message["role"] == "assistant":
+            st.subheader("Sources")
 
-            sources = message.get("sources", [])
+            for source in result["sources"]:
 
-            if sources:
+                st.write(
+                    f"📄 {source['source']} "
+                    f"- Page {source['page']}"
+                )
 
-                with st.expander("📄 Sources"):
+        except requests.exceptions.RequestException as e:
 
-                    for source in sources:
+            st.error(f"API connection error: {e}")
 
-                        filename = source["source"]
-                        page = source["page"]
-
-                        if page is not None:
-                            st.markdown(
-                                f"- **{filename}** — Page {page}"
-                            )
-                        else:
-                            st.markdown(f"- **{filename}**")
-
-
-# Chat input
-question = st.chat_input(
-    "Ask a question about your PDFs..."
-)
-
-
-if question:
-
-    # Save and display user question
-    st.session_state.messages.append({
-        "role": "user",
-        "content": question
-    })
-
-    with st.chat_message("user"):
-        st.markdown(question)
-
-
-    # Generate answer
-    with st.chat_message("assistant"):
-
-        with st.spinner("Searching your documents..."):
-
-            try:
-                result = ask_question_with_sources(question)
-
-                answer = result["answer"]
-                sources = result["sources"]
-
-            except Exception as e:
-
-                answer = f"An error occurred: {e}"
-                sources = []
-
-        st.markdown(answer)
-
-        # Display sources
-        if sources:
-
-            with st.expander("📄 Sources"):
-
-                for source in sources:
-
-                    filename = source["source"]
-                    page = source["page"]
-
-                    if page is not None:
-                        st.markdown(
-                            f"- **{filename}** — Page {page}"
-                        )
-                    else:
-                        st.markdown(f"- **{filename}**")
-
-
-    # Save assistant response and sources
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": answer,
-        "sources": sources
-    })
+    else:
+        st.warning("Please enter a question.")
