@@ -1,47 +1,31 @@
-from langchain_core.runnables import (
-    RunnablePassthrough,
-    RunnableLambda
-)
-
-from retriever import get_context
+from retriever import vector_store
 
 
+def main():   
 
 
+    questions = [
+        "Who can purchase licenses?",
+        "What is the population of Japan?"
+    ]
 
+    for question in questions:
 
+        print("\nQUESTION:", question)
 
+        results = vector_store.similarity_search_with_relevance_scores(
+            question,
+            k=3
+        )
 
+        for doc, score in results:
 
-def main():
+            print("\nSCORE:", score)
+            print("SOURCE:", doc.metadata.get("source"))
+            print("PAGE:", doc.metadata.get("page_label"))
+            print("CONTENT:", doc.page_content[:200])
 
-    question = "How can administrators manage licenses?"
-
-
-    # Test 1: RunnablePassthrough
-
-    passthrough = RunnablePassthrough()
-
-    result = passthrough.invoke(question)
-
-    print("Passthrough result:")
-    print(result)
-
-
-    # Test 2: RunnableLambda
-
-    context_retriever = RunnableLambda(get_context)
-
-    context = context_retriever.invoke(question)
-
-    print("\nContext result:")
-    print(context)
-
-    print("\nContext data type:")
-    print(type(context))
-
-
-
+            print("-" * 50)
 
 
 if __name__ == "__main__":
