@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 PDF Question Answering — RAG Application
 1. Project Overview
 
@@ -177,3 +178,6 @@ The first complete RAG pipeline has been successfully implemented and tested.
 The application can retrieve information from PDF documents and generate answers using Groq, with Gemini handling document and question embeddings.
 
 This project is part of a practical learning journey focused on understanding and building RAG applications from the ground up.
+=======
+# Rag_Training
+>>>>>>> d4fdf0d821931ef9bc7e5b3640875340e9b73bcb
