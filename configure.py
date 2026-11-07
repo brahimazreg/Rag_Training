@@ -36,7 +36,7 @@ VECTOR_DB = "chroma"
 
 CHROMA_DIRECTORY = "./chroma_db"
 
-COLLECTION_NAME = "my_documents"
+COLLECTION_NAME = "rag_documents"
 
 # ==============================
 # GENERATION CONFIGURATION

@@ -1,14 +1,14 @@
 from embedding import embedding_model
 from langchain_chroma import Chroma
 
-
+from configure import COLLECTION_NAME
 # Relevance threshold
 RELEVANCE_THRESHOLD = 0.40
 
 
 # Connect to existing Chroma database
 vector_store = Chroma(
-    collection_name="rag_documents",
+    collection_name=COLLECTION_NAME,
     embedding_function=embedding_model,
     persist_directory="./chroma_db"
 )

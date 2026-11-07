@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field
 from rag_chain import ask_question_with_sources
 
 
-# Initialize FastAPI
 app = FastAPI(
     title="RAG Training API",
     description="API for asking questions about PDF documents",
@@ -13,7 +12,6 @@ app = FastAPI(
 )
 
 
-# Request model
 class QuestionRequest(BaseModel):
     question: str = Field(
         ...,
@@ -22,7 +20,6 @@ class QuestionRequest(BaseModel):
     )
 
 
-# Root endpoint
 @app.get("/")
 def home():
     return {
@@ -31,7 +28,6 @@ def home():
     }
 
 
-# Health check
 @app.get("/health")
 def health_check():
     return {
@@ -39,12 +35,13 @@ def health_check():
     }
 
 
-# Ask question endpoint
 @app.post("/ask")
 def ask_question(request: QuestionRequest):
 
     try:
-        result = ask_question_with_sources(request.question)
+        result = ask_question_with_sources(
+            request.question
+        )
 
         return {
             "success": True,

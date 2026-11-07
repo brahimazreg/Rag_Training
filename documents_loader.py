@@ -1,11 +1,8 @@
-import os
-from dotenv import load_dotenv
+
 from configure import DATA_FILE_PATH
 from langchain_community.document_loaders import PyPDFLoader,DirectoryLoader
 
-load_dotenv()
 
-GEMINI_API_KEY=os.getenv("GEMINI_API_KEY")
 
 def load_documents(path=DATA_FILE_PATH):
 
